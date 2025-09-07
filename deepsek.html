@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Dark theme variables - Default */
+            --dark-bg: linear-gradient(135deg, #0c0e2a 0%, #232746 50%, #1a1c38 100%);
+            --dark-card: linear-gradient(120deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+            --dark-text: #e2e8f0;
+            --dark-secondary: #94a3b8;
+            --dark-accent: #7e6af7;
+            --dark-border: rgba(255, 255, 255, 0.1);
+            --dark-input: rgba(15, 23, 42, 0.6);
+            --dark-shadow: rgba(0, 0, 0, 0.3);
+            
+            /* Category colors */
+            --work: #7e6af7;
+            --personal: #00c9a7;
+            --shopping: #ff6b95;
+            --health: #00bcd4;
+            --finance: #ffb347;
+            --other: #a29bfe;
+            
+            /* Light theme variables */
+            --light-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --light-card: linear-gradient(120deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
+            --light-text: #2d3748;
+            --light-secondary: #718096;
+            --light-accent: #7e6af7;
+            --light-border: rgba(255, 255, 255, 0.5);
+            --light-input: rgba(255, 255, 255, 0.7);
+            --light-shadow: rgba(149, 157, 165, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        body.light {
+            background: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--dark-accent), #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .light .logo {
+            background: linear-gradient(90deg, var(--light-accent), #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .theme-toggle {
+            background: var(--dark-card);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--dark-accent);
+            box-shadow: 0 4px 15px var(--dark-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .light .theme-toggle {
+            background: var(--light-card);
+            color: var(--light-accent);
+            box-shadow: 0 4px 15px var(--light-shadow);
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border-radius: 16px;
+            border: none;
+            background: var(--dark-input);
+            font-size: 16px;
+            color: var(--dark-text);
+            box-shadow: 0 4px 20px var(--dark-shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .light .search-container input {
+            background: var(--light-card);
+            color: var(--light-text);
+            box-shadow: 0 4px 20px var(--light-shadow);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark-secondary);
+        }
+
+        .light .search-container i {
+            color: var(--light-secondary);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 30px var(--dark-shadow);
+            height: fit-content;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--dark-border);
+        }
+
+        .light .sidebar {
+            background: var(--light-card);
+            box-shadow: 0 8px 30px var(--light-shadow);
+            border: 1px solid var(--light-border);
+        }
+
+        .sidebar h2 {
+            margin-bottom: 25px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--dark-accent);
+        }
+
+        .light .sidebar h2 {
+            color: var(--light-accent);
+        }
+
+        .categories {
+            list-style: none;
+        }
+
+        .categories li {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .categories li:hover {
+            background: rgba(126, 106, 247, 0.15);
+            transform: translateX(5px);
+        }
+
+        .light .categories li:hover {
+            background: rgba(126, 106, 247, 0.1);
+        }
+
+        .categories li.active {
+            background: var(--dark-accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(126, 106, 247, 0.5);
+        }
+
+        .light .categories li.active {
+            background: var(--light-accent);
+            box-shadow: 0 4px 15px rgba(126, 106, 247, 0.4);
+        }
+
+        .category-work { color: var(--work); }
+        .category-personal { color: var(--personal); }
+        .category-shopping { color: var(--shopping); }
+        .category-health { color: var(--health); }
+        .category-finance { color: var(--finance); }
+        .category-other { color: var(--other); }
+
+        .tasks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .task-column {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 30px var(--dark-shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--dark-border);
+        }
+
+        .light .task-column {
+            background: var(--light-card);
+            box-shadow: 0 8px 30px var(--light-shadow);
+            border: 1px solid var(--light-border);
+        }
+
+        .task-column h3 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--dark-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .light .task-column h3 {
+            border-bottom-color: var(--light-border);
+        }
+
+        .task-list {
+            list-style: none;
+            min-height: 100px;
+        }
+
+        .task-item {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px var(--dark-shadow);
+            border-left: 5px solid var(--dark-accent);
+            animation: fadeIn 0.5s ease;
+            cursor: grab;
+        }
+
+        .light .task-item {
+            background: var(--light-input);
+            box-shadow: 0 4px 15px var(--light-shadow);
+        }
+
+        .task-item.work { border-left-color: var(--work); }
+        .task-item.personal { border-left-color: var(--personal); }
+        .task-item.shopping { border-left-color: var(--shopping); }
+        .task-item.health { border-left-color: var(--health); }
+        .task-item.finance { border-left-color: var(--finance); }
+        .task-item.other { border-left-color: var(--other); }
+
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .task-category {
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .task-work { background-color: rgba(126, 106, 247, 0.2); color: var(--work); }
+        .task-personal { background-color: rgba(0, 201, 167, 0.2); color: var(--personal); }
+        .task-shopping { background-color: rgba(255, 107, 149, 0.2); color: var(--shopping); }
+        .task-health { background-color: rgba(0, 188, 212, 0.2); color: var(--health); }
+        .task-finance { background-color: rgba(255, 179, 71, 0.2); color: var(--finance); }
+        .task-other { background-color: rgba(162, 155, 254, 0.2); color: var(--other); }
+
+        .task-description {
+            font-size: 14px;
+            color: var(--dark-secondary);
+            margin-bottom: 15px;
+        }
+
+        .light .task-description {
+            color: var(--light-secondary);
+        }
+
+        .task-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .task-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-secondary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .task-actions button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--dark-accent);
+        }
+
+        .light .task-actions button {
+            color: var(--light-secondary);
+        }
+
+        .light .task-actions button:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--light-accent);
+        }
+
+        .add-task-btn {
+            background: var(--dark-accent);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 30px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(126, 106, 247, 0.5);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .add-task-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(126, 106, 247, 0.6);
+        }
+
+        .light .add-task-btn {
+            background: var(--light-accent);
+            box-shadow: 0 4px 15px rgba(126, 106, 247, 0.4);
+        }
+
+        .light .add-task-btn:hover {
+            box-shadow: 0 8px 25px rgba(126, 106, 247, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0 20px;
+            margin-top: auto;
+            color: var(--dark-secondary);
+            font-size: 14px;
+        }
+
+        .light footer {
+            color: var(--light-secondary);
+        }
+
+        footer a {
+            color: var(--dark-accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .light footer a {
+            color: var(--light-accent);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1000px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .tasks-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .tasks-container {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body class="dark">
+    <div class="container">
+        <header>
+            <div class="logo"><i class="fas fa-check-circle"></i> Daily Task</div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-sun"></i>
+            </button>
+        </header>
+
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search Tasks....">
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <h2><i class="fas fa-list"></i> All of tasks</h2>
+                <ul class="categories">
+                    <li class="active"><i class="fas fa-tasks category-work"></i> All Tasks</li>
+                    <li><i class="fas fa-briefcase category-work"></i> Work</li>
+                    <li><i class="fas fa-user category-personal"></i> Personal</li>
+                    <li><i class="fas fa-shopping-cart category-shopping"></i> Shopping</li>
+                    <li><i class="fas fa-heartbeat category-health"></i> Health</li>
+                    <li><i class="fas fa-dollar-sign category-finance"></i> Finance</li>
+                    <li><i class="fas fa-star category-other"></i> Other</li>
+                </ul>
+
+                <button class="add-task-btn">
+                    
+                    > Add New Task
+                </button>
+            </div>
+
+            <div class="tasks-container">
+                <div class="task-column">
+                    <h3><i class="fas fa-clock"></i> Next Up</h3>
+                    <ul class="task-list">
+                        <li class="task-item work">
+                            <div class="task-title">Design Meeting Preparation</div>
+                            <div class="task-category task-work">Work</div>
+                            <div class="task-description">Prepare documents for client meeting</div>
+                            <div class="task-actions">
+                                <button><i class="fas fa-edit"></i> Edit</button>
+                                <button><i class="fas fa-check"></i> Complete</button>
+                            </div>
+                        </li>
+                        <li class="task-item finance">
+                            <div class="task-title">Pay Electricity Bill</div>
+                            <div class="task-category task-finance">Finance</div>
+                            <div class="task-description">Due by September 15</div>
+                            <div class="task-actions">
+                                <button><i class="fas fa-edit"></i> Edit</button>
+                                <button><i class="fas fa-check"></i> Complete</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="task-column">
+                    <h3><i class="fas fa-spinner"></i> In Progress</h3>
+                    <ul class="task-list">
+                        <li class="task-item personal">
+                            <div class="task-title">Gym Session</div>
+                            <div class="task-category task-personal">Personal</div>
+                            <div class="task-description">45 mins cardio + weights</div>
+                            <div class="task-actions">
+                                <button><i class="fas fa-edit"></i> Edit</button>
+                                <button><i class="fas fa-check"></i> Complete</button>
+                            </div>
+                        </li>
+                        <li class="task-item shopping">
+                            <div class="task-title">Buy Groceries</div>
+                            <div class="task-category task-shopping">Shopping</div>
+                            <div class="task-description">Milk, Eggs, Bread, Fruits</div>
+                            <div class="task-actions">
+                                <button><i class="fas fa-edit"></i> Edit</button>
+                                <button><i class="fas fa-check"></i> Complete</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="task-column">
+                    <h3><i class="fas fa-check-circle"></i> Done</h3>
+                    <ul class="task-list">
+                        <li class="task-item health">
+                            <div class="task-title">Dental Checkup</div>
+                            <div class="task-category task-health">Health</div>
+                            <div class="task-description">Annual dental appointment</div>
+                            <div class="task-actions">
+                                <button><i class="fas fa-edit"></i> Edit</button>
+                                <button><i class="fas fa-undo"></i> Undo</button>
+                            </div>
+                        </li>
+                        <li class="task-item other">
+                            <div class="task-title">Bibbibibibib</div>
+                            <div class="task-category task-other">Other</div>
+                            <div class="task-description">Mysterious task completed</div>
+                            <div class="task-actions">
+                                <button><i class="fas fa-edit"></i> Edit</button>
+                                <button><i class="fas fa-undo"></i> Undo</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Made with <i class="fas fa-heart" style="color: #ff6b95;"></i> by <a href="#">Usama Ali</a>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+        
+        // Set default to dark mode
+        body.classList.add('dark');
+        icon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'dark');
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            body.classList.toggle('light');
+            
+            if (body.classList.contains('dark')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Category selection
+        const categoryItems = document.querySelectorAll('.categories li');
+        categoryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                categoryItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+        
+        // Add some interactive animations
+        const taskItems = document.querySelectorAll('.task-item');
+        taskItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-5px)';
+                if (body.classList.contains('dark')) {
+                    item.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.4)';
+                } else {
+                    item.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                }
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0)';
+                if (body.classList.contains('dark')) {
+                    item.style.boxShadow = '0 4px 15px var(--dark-shadow)';
+                } else {
+                    item.style.boxShadow = '0 4px 15px var(--light-shadow)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

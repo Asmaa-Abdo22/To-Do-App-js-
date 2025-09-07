@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List -JS</title>
+    <!-- &-----Fav Icon ---- -->
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+    <!-- &-----Font Awesome css---- -->
+    <link rel="stylesheet" href="./css/all.min.css">
+    <!-- &----Bootstrap css ---- -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!-- &-----Main css ---- -->
+    <link rel="stylesheet" href="./css/stylee.css">
+</head>
+
+<body>
+    <header class="bg-header">
+        <div class="container  py-4 d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center logoText">
+                <i class="fas fa-check-circle me-2 h3"></i>
+                <h1> Daily Task</h1>
+
+            </div>
+            <div class=" w-50">
+                <div class=" flex-nowrap mx-auto search-container">
+                    <input type="text" class="" placeholder="Search Tasks...." aria-label="search"
+                        aria-describedby="addon-wrapping" id="searchInput" list="categories" />
+                    <datalist id="categories">
+                        <option value="Education"></option>
+                        <option value="Health"></option>
+                        <option value="Finance"></option>
+                        <option value="productivity"></option>
+                    </datalist>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <nav class=" my-4 container py-2  d-flex justify-content-between align-items-center">
+
+            <h3 class="m-0"> <i class="fas fa-list me-2 "></i>All Of Tasks</h3>
+            <ul class="list-unstyled d-flex gap-3 m-0">
+                <ul class="list-unstyled m-0 d-flex  gap-3 layout">
+                    <li class="rounded-3">
+                        <i class="fa-solid fa-grip-vertical fs-3 cursorPointer" id="gridBtn"></i>
+                    </li>
+                    <li class="rounded-3">
+                        <i class="fa-solid fa-bars fs-3 cursorPointer" id="barsBtn"></i>
+                    </li>
+
+                </ul>
+                <li class="rounded-3">
+                    <i class="fas fa-sun fs-3 cursorPointer" id="mode"></i>
+                </li>
+            </ul>
+
+
+        </nav>
+
+        <button type="button" class="btn  add-task-btn mx-auto d-flex align-items-center  mb-5 fw-semibold" id="newTask"
+            data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <i class=" fas fa-plus me-2"></i> Add New Task
+        </button>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                <section class="to-do " id="nextUp">
+                    <div class="content ">
+                        <div class="header d-flex justify-content-between align-items-center py-2 px-3">
+                            <h2 class="h4 m-0 text-capitalize"><i class="fas fa-clock me-1"></i> Next up</h2>
+                            <span id="nextUpCounter">0</span>
+                        </div>
+                        <div class="tasks p-3">
+                            <p>content</p>
+                            <span>hello</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="in-progress " id="inProgress">
+                    <div class="content ">
+
+                        <div class="header d-flex justify-content-between align-items-center py-2 px-3">
+                            <h2 class="h4 m-0 text-capitalize"><i class="fas fa-spinner me-1"></i> in progress</h2>
+                            <span id="inProgressCounter">0</span>
+                        </div>
+                        <div class="tasks p-3">
+                            <p>content</p>
+                            <span>hello</span>
+                        </div>
+                    </div>
+                </section>
+                <section class="done " id="done">
+                    <div class="content ">
+
+                        <div class="header d-flex justify-content-between align-items-center py-2 px-3">
+                            <h2 class="h4 m-0 text-capitalize"><i class="fas fa-check-circle me-1"></i> done</h2>
+                            <span id="doneCounter">0</span>
+                        </div>
+                        <div class="tasks p-3">
+                            <p>content</p>
+                            <span>hello</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <div class="modall">
+        <!-- Modal -->
+        <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5 " id="exampleModalLabel">New Task</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                       body
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                            class="btn  add-task-btn mx-auto d-flex align-items-center  mt-5 fw-semibold" id="newTask"
+                           >
+                            <i class=" fas fa-plus me-2"></i> Add  Task
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="mt-5 fixed-bottom bg-footer">
+        <div class="container py-3 text-center">
+            <p class=" m-0 fs-6 footerText ">
+                Made with <i class="fa-solid fa-heart fa-beat mx-1 text-danger"></i> by
+                <a href="https://www.linkedin.com/in/asmaa-abdo"
+                    class="text-decoration-none fw-bold d-inline-block logoText" target="_blank">Asmaa Abdo </a> @2025
+            </p>
+        </div>
+    </footer>
+    <!-- &----Bootstrap Js ---- -->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <!-- &----Main Js  ---- -->
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
