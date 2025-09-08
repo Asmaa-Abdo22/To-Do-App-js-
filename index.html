@@ -25,8 +25,8 @@
             </div>
             <div class=" w-50">
                 <div class=" flex-nowrap mx-auto search-container">
-                    <input type="text" class="" placeholder="Search Tasks...." aria-label="search"
-                        aria-describedby="addon-wrapping" id="searchInput" list="categories" />
+                    <input id="searchTaskInput" type="search" class="" placeholder="Search Tasks...." aria-label="search"
+                        aria-describedby="addon-wrapping" id="searchInput" list="categories" autocomplete="off" />
                     <datalist id="categories">
                         <option value="Education"></option>
                         <option value="Health"></option>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </header>
-    <main>
+    <main class="my-5">
         <nav class=" my-4 container py-2  d-flex justify-content-between align-items-center">
 
             <h3 class="m-0"> <i class="fas fa-list me-2 "></i>All Of Tasks</h3>
@@ -63,17 +63,17 @@
             data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class=" fas fa-plus me-2"></i> Add New Task
         </button>
-        <div class="container">
+        <div class="container  py-2 pb-5">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+              
                 <section class="to-do " id="nextUp">
                     <div class="content ">
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
                             <h2 class="h4 m-0 text-capitalize"><i class="fas fa-clock me-1"></i> Next up</h2>
                             <span id="nextUpCounter">0</span>
                         </div>
-                        <div class="tasks p-3">
-                            <p>content</p>
-                            <span>hello</span>
+                        <div class="tasks mb-1 p-3">
+                           
                         </div>
                     </div>
                 </section>
@@ -85,8 +85,7 @@
                             <span id="inProgressCounter">0</span>
                         </div>
                         <div class="tasks p-3">
-                            <p>content</p>
-                            <span>hello</span>
+                            
                         </div>
                     </div>
                 </section>
@@ -98,32 +97,68 @@
                             <span id="doneCounter">0</span>
                         </div>
                         <div class="tasks p-3">
-                            <p>content</p>
-                            <span>hello</span>
+                            
                         </div>
                     </div>
                 </section>
             </div>
         </div>
     </main>
+
+
     <div class="modall">
         <!-- Modal -->
         <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+            <div class=" modal-lg  modal-dialog modal-dialog-centered">
+                <div class="modal-content ">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5 " id="exampleModalLabel">New Task</h1>
+                        <h1 class="modal-title fs-2 " id="exampleModalLabel">New Task</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
                     <div class="modal-body">
-                       body
+                        <div class="container">
+                            <div class="row row-cols-1 g-3">
+                                
+                                <div class="form-floating">
+                                    <select class="form-select" id="status" aria-label="Floating label select example">
+                                        <option value="nextUp" selected>Next Up</option>
+                                        <option value="inProgress">In Progress</option>
+                                        <option value="done">Done</option>
+                                    </select>
+                                    <label for="status">Select Task Status</label>
+                                </div>
+                                <div class="form-floating">
+                                    <select class="form-select" id="category"
+                                        aria-label="Floating label select example">
+                                        <option value="education" selected>Education</option>
+                                        <option value="health">Health & Fitness</option>
+                                        <option value="finance">Finance</option>
+                                        <option value="productivity">Productivity</option>
+                                    </select>
+                                    <label for="category">Select Category</label>
+                                </div>
+                                <div class="form-floating ">
+                                    <input type="text" class="form-control " id="title">
+                                    <label for="title" class="text-muted ms-1">Task Title</label>
+                                </div>
+                                <div class="form-floating ">
+                                    <textarea class="form-control " id="description"
+                                        placeholder="Task Description"></textarea>
+                                    <label for="description" class="text-muted ms-1">Task Description</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button"
-                            class="btn  add-task-btn mx-auto d-flex align-items-center  mt-5 fw-semibold" id="newTask"
-                           >
-                            <i class=" fas fa-plus me-2"></i> Add  Task
+                            class="btn  add-task-btn mx-auto d-flex align-items-center  mt-2 fw-semibold" id="addBtn">
+                            <i class=" fas fa-plus me-2"></i> Add Task
                         </button>
+                        <!-- <button type="button"
+                            class="btn  update-task-btn mx-auto d-flex align-items-center  mt-5 fw-semibold" id="newTask">
+                            <i class=" fas fa-plus me-2"></i> Update Task
+                        </button> -->
                     </div>
                 </div>
             </div>

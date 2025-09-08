@@ -156,22 +156,22 @@ main section .header {
   background-color: var(--light-border);
   border-radius: 16px;
 }
-.tasks {
+.task {
   background: rgba(15, 23, 42, 0.4);
   border-radius: 16px;
   padding: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
   box-shadow: 0 4px 15px var(--dark-shadow);
-  border-left: 5px solid var(--dark-accent);
+
   transition: all 300ms;
   cursor: pointer;
 }
-.tasks:hover {
+.task:hover {
   background: rgba(126, 106, 247, 0.15);
   transform: translatey(5px);
 }
-.light .tasks {
+.light .task {
   background: var(--light-input);
   box-shadow: 0 4px 15px var(--light-shadow);
 }
@@ -186,13 +186,51 @@ main section .header {
 .done h2 {
   color: #7ed321;
 }
+.category.education,
+.category.productivity,
+.category.health,
+.category.finance {
+  font-size: 15px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.category.education {
+  color: var(--education);
+  background-color: rgba(126, 106, 247, 0.2);
+  /* border-left: 5px solid var(--dark-accent); */
+}
+.category.productivity {
+  background-color: rgba(255, 107, 149, 0.2);
+  color: var(--productivity);
+}
+.category.health {
+  color: var(--health);
+  background-color: rgba(0, 188, 212, 0.2);
+}
+.category.finance {
+  background-color: rgba(255, 179, 71, 0.2);
+  color: var(--finance);
+}
+.task p {
+  font-size: 14px;
+  color: var(--dark-secondary);
+  margin-bottom: 15px;
+}
+
+.light .task p {
+  color: var(--light-secondary);
+}
 /* ~------Modal----- */
 .modal-content {
   background: var(--dark-card);
   border-radius: 16px;
   border: 1px solid var(--dark-border);
   box-shadow: 0 10px 30px var(--dark-shadow);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
 }
 
 .modal-header {
