@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <!-- &-----Fav Icon ---- -->
+    <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+    <!--& SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- &-----Font Awesome css---- -->
+    <link rel="stylesheet" href="./css/all.min.css">
+    <!-- &----Bootstrap css ---- -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <!-- &-----Main css ---- -->
+    <link rel="stylesheet" href="./css/stylee.css">
+    <!-- &-----AOS CSS ---- -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+</head>
+
+<body>
+
+    <main class="min-vh-100 p-2 signInMain d-flex justify-content-center align-items-center flex-column">
+        <h1 class="signup-title mb-4 mt-3 px-3" data-aos="fade-down" data-aos-duration="1000">Welcome Again</h1>
+        <div class="container d-flex justify-content-center align-items-center">
+
+            <div class="row g-4 row-cols-md-2 p-4">
+
+                <div class="wlcImg d-flex justify-content-center align-items-center p-4" data-aos="zoom-in"
+                    data-aos-duration="1000">
+                    <img src="./images/Login.png" alt="welcome" class="w-75">
+                </div>
+                <form class="p-2 text-center d-flex flex-column justify-content-center" data-aos="fade-left"
+                    data-aos-duration="1200">
+
+                    <div class="login-inputs d-flex flex-column gap-2 w-100">
+
+                        <div class="email w-100" data-aos="fade-up" data-aos-duration="800">
+                            <input type="email" placeholder="Enter your Email address" class="form-control p-2"
+                                id="emailInput" />
+                            <p class="email-hint m-0 text-danger text-start p-2 rounded-2 d-none">
+                                <i class="fa-solid fa-triangle-exclamation pe-2"></i>
+                                Invalid email address
+                            </p>
+                        </div>
+                        <div class="password w-100" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                            <input type="password" placeholder="Enter your password" class="form-control p-2"
+                                id="passwordInput" />
+                            <p class="password-hint m-0 text-start p-2 rounded-2 text-danger d-none">
+                                <i class="fa-solid fa-triangle-exclamation pe-2"></i>
+                                At least 6 characters with at least one letter and one number
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="signin-buttons mt-4 d-flex flex-column gap-3" data-aos="fade-up"
+                        data-aos-duration="1000" data-aos-delay="400">
+                        <button type="button" class="btn btn-new-account" id="signInBtn">
+                            Sign In
+                        </button>
+                        <a type="button" class="btn btn-sign-in py-2 mb-2" id="nothaveAccount" href="./signUp.html">
+                            Dont't Have Account ? Sign Up
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!--& SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- &----Bootstrap Js ---- -->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <!-- &----Main Js  ---- -->
+    <script src="./js/signIn.js"></script>
+    <!-- &-----AOS JS ---- -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js">
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: false,
+                mirror: false
+            });
+        });
+    </script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+
+</html>

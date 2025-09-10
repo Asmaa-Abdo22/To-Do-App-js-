@@ -5,10 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List -JS</title>
+    <script>
+        const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+        if (!loggedUser) {
+            document.location.href = "./signIn.html";
+        }
+    </script>
     <!-- &-----Fav Icon ---- -->
     <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
     <!--& SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- & AOS Animation Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
     <!-- &-----Font Awesome css---- -->
     <link rel="stylesheet" href="./css/all.min.css">
     <!-- &----Bootstrap css ---- -->
@@ -18,14 +26,14 @@
 </head>
 
 <body>
-    <header class="bg-header">
-        <div class="container  py-4 d-flex justify-content-between align-items-center">
-            <div class="d-flex justify-content-between align-items-center logoText">
+    <header class="bg-header" data-aos="fade-down" data-aos-duration="800">
+        <div class="container  py-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center logoText" data-aos="fade-right"
+                data-aos-delay="100">
                 <i class="fas fa-check-circle me-2 h3"></i>
                 <h1> Daily Task</h1>
-
             </div>
-            <div class=" w-50">
+            <div class=" w-50 mx-1" data-aos="zoom-in" data-aos-delay="200">
                 <div class=" flex-nowrap mx-auto search-container">
                     <input id="searchTaskInput" type="search" class="" placeholder="Search Tasks...."
                         aria-label="search" aria-describedby="addon-wrapping" list="categories" autocomplete="off" />
@@ -37,70 +45,66 @@
                     </datalist>
                 </div>
             </div>
+            <i class="fas ms-1 fa-sign-out-alt logout-icon" title="Logout" data-aos="fade-left"
+                data-aos-delay="300"></i>
         </div>
     </header>
-    <main class="my-5">
-        <nav class=" my-4 container py-2  d-flex justify-content-between align-items-center">
+    <main class="mb-5 mt-3">
+        <nav class=" my-4 container py-2  d-flex justify-content-between align-items-center" data-aos="fade-down"
+            data-aos-delay="200">
 
-            <h3 class="m-0"> <i class="fas fa-list me-2 "></i>All Of Tasks</h3>
+            <h3 class="m-0" data-aos="fade-right" data-aos-delay="300"> <i class="fas fa-list me-2 "></i>All Of Tasks
+            </h3>
             <ul class="list-unstyled d-flex gap-3 m-0">
                 <ul class="list-unstyled m-0 d-flex  gap-3 layout">
-                    <li class="rounded-3">
-                        <i class="ww-50 hh-50 fa-solid fa-grip-vertical fs-3 cursorPointer p-2 activeIcon" id="gridBtn"></i>
+                    <li class="rounded-3" data-aos="zoom-in" data-aos-delay="400">
+                        <i class="ww-50 hh-50 fa-solid fa-grip-vertical fs-3 cursorPointer p-2 activeIcon"
+                            id="gridBtn"></i>
                     </li>
-                    <li class="rounded-3">
+                    <li class="rounded-3" data-aos="zoom-in" data-aos-delay="500">
                         <i class="ww-50 hh-50 fa-solid fa-bars fs-3 cursorPointer p-2 " id="barsBtn"></i>
                     </li>
-
                 </ul>
-                <li class="rounded-3">
+                <li class="rounded-3" data-aos="zoom-in" data-aos-delay="600">
                     <i class="ww-50 hh-50 fas fa-sun fs-3 cursorPointer p-2" id="modeIcon"></i>
                     <i class="ww-50 hh-50 fas fa-moon fs-3 cursorPointer p-2 d-none" id="moonIcon"></i>
                 </li>
             </ul>
-
-
         </nav>
 
         <button type="button" class="btn  add-task-btn mx-auto d-flex align-items-center  mb-5 fw-semibold" id="newTask"
-            data-bs-toggle="modal" data-bs-target="#exampleModal">
+            data-bs-toggle="modal" data-bs-target="#exampleModal" data-aos="zoom-in" data-aos-delay="300">
             <i class=" fas fa-plus me-2"></i> Add New Task
         </button>
         <div class="container  py-2 pb-5">
-            <div class="row   g-3 " id="rowContainer">
-
-                <section class="to-do col " id="nextUp">
+            <div class="row 1  g-3 " id="rowContainer">
+                <section class="to-do col " id="nextUp" data-aos="fade-up" data-aos-delay="400">
                     <div class="content ">
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
                             <h2 class="h4 m-0 text-capitalize"><i class="fas fa-clock me-1"></i> Next up</h2>
                             <span id="nextUpCounter">0</span>
                         </div>
                         <div class="tasks mb-1 p-3">
-
                         </div>
                     </div>
                 </section>
-                <section class="in-progress col" id="inProgress">
+                <section class="in-progress col" id="inProgress" data-aos="fade-up" data-aos-delay="500">
                     <div class="content ">
-
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
                             <h2 class="h4 m-0 text-capitalize"><i class="fas fa-spinner me-1"></i> in progress</h2>
                             <span id="inProgressCounter">0</span>
                         </div>
                         <div class="tasks p-3">
-
                         </div>
                     </div>
                 </section>
-                <section class="done col" id="done">
+                <section class="done col" id="done" data-aos="fade-up" data-aos-delay="600">
                     <div class="content ">
-
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
                             <h2 class="h4 m-0 text-capitalize"><i class="fas fa-check-circle me-1"></i> done</h2>
                             <span id="doneCounter">0</span>
                         </div>
                         <div class="tasks p-3">
-
                         </div>
                     </div>
                 </section>
@@ -108,12 +112,11 @@
         </div>
     </main>
 
-
     <div class="modall">
         <!-- Modal -->
         <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class=" modal-lg  modal-dialog modal-dialog-centered">
-                <div class="modal-content ">
+                <div class="modal-content " data-aos="zoom-in" data-aos-duration="600">
                     <div class="modal-header">
                         <h1 class="modal-title fs-2 " id="exampleModalLabel">New Task</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -122,8 +125,7 @@
                     <div class="modal-body">
                         <div class="container">
                             <div class="row row-cols-1 g-3">
-
-                                <div class="form-floating">
+                                <div class="form-floating" data-aos="fade-right" data-aos-delay="100">
                                     <select class="form-select" id="status" aria-label="Floating label select example">
                                         <option value="nextUp" selected>Next Up</option>
                                         <option value="inProgress">In Progress</option>
@@ -131,7 +133,7 @@
                                     </select>
                                     <label for="status">Select Task Status</label>
                                 </div>
-                                <div class="form-floating">
+                                <div class="form-floating" data-aos="fade-left" data-aos-delay="200">
                                     <select class="form-select" id="category"
                                         aria-label="Floating label select example">
                                         <option value="education" selected>Education</option>
@@ -140,9 +142,8 @@
                                         <option value="productivity">Productivity</option>
                                     </select>
                                     <label for="category">Select Category</label>
-
                                 </div>
-                                <div class="form-floating ">
+                                <div class="form-floating " data-aos="fade-right" data-aos-delay="300">
                                     <input type="text" class="form-control " id="title">
                                     <label for="title" class="text-muted ms-1">Task Title</label>
                                     <p id="titleAlert" class="d-none  text-danger mt-1">
@@ -150,7 +151,7 @@
                                         characters.
                                     </p>
                                 </div>
-                                <div class="form-floating ">
+                                <div class="form-floating " data-aos="fade-left" data-aos-delay="400">
                                     <textarea class="form-control " id="description"
                                         placeholder="Task Description"></textarea>
                                     <label for="description" class="text-muted ms-1">Task Description</label>
@@ -163,12 +164,13 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button"
-                            class="btn  add-task-btn mx-auto d-flex align-items-center  mt-2 fw-semibold" id="addBtn">
+                            class="btn  add-task-btn mx-auto d-flex align-items-center  mt-2 fw-semibold" id="addBtn"
+                            data-aos="zoom-in" data-aos-delay="500">
                             <i class=" fas fa-plus me-2"></i> Add Task
                         </button>
                         <button type="button"
                             class="btn d-none  update-task-btn mx-auto d-flex align-items-center  mt-2 fw-semibold"
-                            id="updateBtn">
+                            id="updateBtn" data-aos="zoom-in" data-aos-delay="500">
                             <i class=" fas fa-edit me-2"></i> Update Task
                         </button>
                     </div>
@@ -176,7 +178,7 @@
             </div>
         </div>
     </div>
-    <footer class="mt-5 fixed-bottom bg-footer">
+    <footer class="mt-5 fixed-bottom bg-footer" data-aos="fade-up" data-aos-delay="700">
         <div class="container py-3 text-center">
             <p class=" m-0 fs-6 footerText ">
                 Made with <i class="fa-solid fa-heart fa-beat mx-1 text-danger"></i> by
@@ -187,6 +189,19 @@
     </footer>
     <!--& SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: false,
+                mirror: false
+            });
+        });
+    </script>
     <!-- &----Bootstrap Js ---- -->
     <script src="./js/bootstrap.bundle.min.js"></script>
     <!-- &----Main Js  ---- -->

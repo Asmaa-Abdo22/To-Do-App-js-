@@ -17,7 +17,7 @@ const gridBtn = document.getElementById("gridBtn");
 const modeIcon = document.getElementById("modeIcon");
 const moonIcon = document.getElementById("moonIcon");
 const rowContainer = document.getElementById("rowContainer");
-
+const logoutIcon = document.querySelector(".logout-icon");
 // *----Global Variables ----
 let taskIndex;
 let allTasks;
@@ -108,12 +108,28 @@ function clearInputs() {
 
 function displayTask(index) {
   var taskHTML = `
-  <div class="task"  style="background:${allTasks[index].bgColor}">
-    <h3 class="text-capitalize">${allTasks[index].title}</h3>
-    <p class="description text-capitalize">${allTasks[index].description}</p>
-    <h4 class="category ${allTasks[index].category} text-capitalize">${allTasks[index].category}</h4>
-    <ul class="task-options list-unstyled d-flex gap-4 fs-5 m-0 mt-2">
-     <li><i class="fas fa-pen  text-warning"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showEditTAsk(${index})"></i></li>
+  <div class="task" style="background:${allTasks[index].bgColor}" 
+       data-aos="fade-up" 
+       data-aos-duration="800" 
+       data-aos-delay="${index * 100}">
+       
+    <h3 class="text-capitalize" data-aos="zoom-in" data-aos-duration="600">${
+      allTasks[index].title
+    }</h3>
+    
+    <p class="description text-capitalize" data-aos="fade-right" data-aos-duration="700">${
+      allTasks[index].description
+    }</p>
+    
+    <h4 class="category ${allTasks[index].category} text-capitalize" 
+        data-aos="flip-left" 
+        data-aos-duration="700">${allTasks[index].category}</h4>
+    
+    <ul class="task-options list-unstyled d-flex gap-4 fs-5 m-0 mt-2" 
+        data-aos="fade-up" 
+        data-aos-duration="900">
+        
+     <li><i class="fas fa-pen text-warning" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showEditTAsk(${index})"></i></li>
      <li><i class="fas fa-trash text-danger" onclick="deleteTask(${index})"></i></li>
      <li><i class="fas fa-palette text-secondary" onclick="changeBgColor(event,${index})"></i></li>
     </ul>
@@ -220,7 +236,25 @@ function changeBgColor(e, i) {
   e.target.closest(".task").style.background = allTasks[i].bgColor;
   localStorage.setItem("allTasks", JSON.stringify(allTasks));
 }
-
+// 🌙☀️ Dark / Light Mode
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  if (document.body.classList.contains("light")) {
+    // Light Mode
+    localStorage.setItem("theme", "light");
+    moonIcon.classList.remove("d-none");
+    modeIcon.classList.add("d-none");
+  } else {
+    // Dark Mode
+    localStorage.setItem("theme", "dark");
+    moonIcon.classList.add("d-none");
+    modeIcon.classList.remove("d-none");
+  }
+}
+function logOut() {
+  localStorage.removeItem("loggedUser");
+  document.location.href = "./signIn.html";
+}
 // !----Events ----
 addBtn.addEventListener("click", () => {
   addTask();
@@ -241,7 +275,7 @@ gridBtn.addEventListener("click", () => {
   gridBtn.classList.add("activeIcon");
   barsBtn.classList.remove("activeIcon");
   rowContainer.classList.add("row-cols-md-2", "row-cols-lg-3");
-  rowContainer.classList.remove("row-cols-1", "flex-column");
+  rowContainer.classList.remove("flex-column");
 });
 barsBtn.addEventListener("click", () => {
   barsBtn.classList.add("activeIcon");
@@ -252,22 +286,6 @@ barsBtn.addEventListener("click", () => {
 modeIcon.addEventListener("click", () => {
   modeIcon.classList.add("activeIcon");
 });
-
-// 🌙☀️ Dark / Light Mode
-function toggleTheme() {
-  document.body.classList.toggle("light");
-  if (document.body.classList.contains("light")) {
-    // Light Mode
-    localStorage.setItem("theme", "light");
-    moonIcon.classList.remove("d-none");
-    modeIcon.classList.add("d-none");
-  } else {
-    // Dark Mode
-    localStorage.setItem("theme", "dark");
-    moonIcon.classList.add("d-none");
-    modeIcon.classList.remove("d-none");
-  }
-}
-
 modeIcon.addEventListener("click", toggleTheme);
 moonIcon.addEventListener("click", toggleTheme);
+logoutIcon.addEventListener("click", logOut);
