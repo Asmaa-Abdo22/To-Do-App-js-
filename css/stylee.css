@@ -47,6 +47,10 @@ body {
   background: var(--dark-bg);
   color: var(--dark-text);
 }
+body.light {
+  background: var(--light-bg);
+  color: var(--light-text);
+}
 h1,
 h2 {
   font-family: "Lobster", sans-serif;
@@ -134,6 +138,24 @@ nav h3 {
   color: white;
   background: var(--dark-accent);
 }
+/* *------Main----- */
+.activeIcon {
+  border-radius: 10px;
+  background: rgba(151, 142, 200, 0.427);
+  border: none;
+  box-shadow: 0 4px 15px var(--dark-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.ww-50 {
+  border-radius: 50%;
+  width: 50px;
+}
+.hh-50 {
+  height: 50px;
+}
 /* *------TAsks----- */
 main section .content {
   background: var(--dark-card);
@@ -215,16 +237,21 @@ main section .header {
   background-color: rgba(255, 179, 71, 0.2);
   color: var(--finance);
 }
-.task p {
-  font-size: 14px;
-  color: var(--dark-secondary);
-  margin-bottom: 15px;
-}
 
-.light .task p {
-  color: var(--light-secondary);
-}
 /* ~------Modal----- */
+.update-task-btn {
+  background: #ffa726;
+
+  box-shadow: 0 4px 15px rgba(255, 179, 71, 0.4);
+  transition: all 0.2s;
+  color: white;
+}
+.update-task-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 179, 71, 0.6);
+  color: white;
+  background: var(--finance);
+}
 .modal-content {
   background: var(--dark-card);
   border-radius: 16px;

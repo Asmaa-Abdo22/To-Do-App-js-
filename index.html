@@ -7,6 +7,8 @@
     <title>To Do List -JS</title>
     <!-- &-----Fav Icon ---- -->
     <link rel="shortcut icon" href="./images/favicon.png" type="image/x-icon">
+    <!--& SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- &-----Font Awesome css---- -->
     <link rel="stylesheet" href="./css/all.min.css">
     <!-- &----Bootstrap css ---- -->
@@ -25,8 +27,8 @@
             </div>
             <div class=" w-50">
                 <div class=" flex-nowrap mx-auto search-container">
-                    <input id="searchTaskInput" type="search" class="" placeholder="Search Tasks...." aria-label="search"
-                        aria-describedby="addon-wrapping" id="searchInput" list="categories" autocomplete="off" />
+                    <input id="searchTaskInput" type="search" class="" placeholder="Search Tasks...."
+                        aria-label="search" aria-describedby="addon-wrapping" list="categories" autocomplete="off" />
                     <datalist id="categories">
                         <option value="Education"></option>
                         <option value="Health"></option>
@@ -44,15 +46,16 @@
             <ul class="list-unstyled d-flex gap-3 m-0">
                 <ul class="list-unstyled m-0 d-flex  gap-3 layout">
                     <li class="rounded-3">
-                        <i class="fa-solid fa-grip-vertical fs-3 cursorPointer" id="gridBtn"></i>
+                        <i class="ww-50 hh-50 fa-solid fa-grip-vertical fs-3 cursorPointer p-2 activeIcon" id="gridBtn"></i>
                     </li>
                     <li class="rounded-3">
-                        <i class="fa-solid fa-bars fs-3 cursorPointer" id="barsBtn"></i>
+                        <i class="ww-50 hh-50 fa-solid fa-bars fs-3 cursorPointer p-2 " id="barsBtn"></i>
                     </li>
 
                 </ul>
                 <li class="rounded-3">
-                    <i class="fas fa-sun fs-3 cursorPointer" id="mode"></i>
+                    <i class="ww-50 hh-50 fas fa-sun fs-3 cursorPointer p-2" id="modeIcon"></i>
+                    <i class="ww-50 hh-50 fas fa-moon fs-3 cursorPointer p-2 d-none" id="moonIcon"></i>
                 </li>
             </ul>
 
@@ -64,20 +67,20 @@
             <i class=" fas fa-plus me-2"></i> Add New Task
         </button>
         <div class="container  py-2 pb-5">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-              
-                <section class="to-do " id="nextUp">
+            <div class="row   g-3 " id="rowContainer">
+
+                <section class="to-do col " id="nextUp">
                     <div class="content ">
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
                             <h2 class="h4 m-0 text-capitalize"><i class="fas fa-clock me-1"></i> Next up</h2>
                             <span id="nextUpCounter">0</span>
                         </div>
                         <div class="tasks mb-1 p-3">
-                           
+
                         </div>
                     </div>
                 </section>
-                <section class="in-progress " id="inProgress">
+                <section class="in-progress col" id="inProgress">
                     <div class="content ">
 
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
@@ -85,11 +88,11 @@
                             <span id="inProgressCounter">0</span>
                         </div>
                         <div class="tasks p-3">
-                            
+
                         </div>
                     </div>
                 </section>
-                <section class="done " id="done">
+                <section class="done col" id="done">
                     <div class="content ">
 
                         <div class="header d-flex justify-content-between align-items-center py-2 px-3">
@@ -97,7 +100,7 @@
                             <span id="doneCounter">0</span>
                         </div>
                         <div class="tasks p-3">
-                            
+
                         </div>
                     </div>
                 </section>
@@ -119,7 +122,7 @@
                     <div class="modal-body">
                         <div class="container">
                             <div class="row row-cols-1 g-3">
-                                
+
                                 <div class="form-floating">
                                     <select class="form-select" id="status" aria-label="Floating label select example">
                                         <option value="nextUp" selected>Next Up</option>
@@ -137,15 +140,23 @@
                                         <option value="productivity">Productivity</option>
                                     </select>
                                     <label for="category">Select Category</label>
+
                                 </div>
                                 <div class="form-floating ">
                                     <input type="text" class="form-control " id="title">
                                     <label for="title" class="text-muted ms-1">Task Title</label>
+                                    <p id="titleAlert" class="d-none  text-danger mt-1">
+                                        * Title must contain only letters, numbers and spaces, between 3 and 50
+                                        characters.
+                                    </p>
                                 </div>
                                 <div class="form-floating ">
                                     <textarea class="form-control " id="description"
                                         placeholder="Task Description"></textarea>
                                     <label for="description" class="text-muted ms-1">Task Description</label>
+                                    <p id="descriptionAlert" class="d-none text-danger mt-1">
+                                        * description must contain only letters and spaces, between 2 and 30 characters.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -155,10 +166,11 @@
                             class="btn  add-task-btn mx-auto d-flex align-items-center  mt-2 fw-semibold" id="addBtn">
                             <i class=" fas fa-plus me-2"></i> Add Task
                         </button>
-                        <!-- <button type="button"
-                            class="btn  update-task-btn mx-auto d-flex align-items-center  mt-5 fw-semibold" id="newTask">
-                            <i class=" fas fa-plus me-2"></i> Update Task
-                        </button> -->
+                        <button type="button"
+                            class="btn d-none  update-task-btn mx-auto d-flex align-items-center  mt-2 fw-semibold"
+                            id="updateBtn">
+                            <i class=" fas fa-edit me-2"></i> Update Task
+                        </button>
                     </div>
                 </div>
             </div>
@@ -173,6 +185,8 @@
             </p>
         </div>
     </footer>
+    <!--& SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- &----Bootstrap Js ---- -->
     <script src="./js/bootstrap.bundle.min.js"></script>
     <!-- &----Main Js  ---- -->

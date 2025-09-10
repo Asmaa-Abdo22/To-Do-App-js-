@@ -11,10 +11,23 @@ const nextUpSpan = document.getElementById("nextUpCounter");
 const inProgressSpan = document.getElementById("inProgressCounter");
 const searchTaskInput = document.getElementById("searchTaskInput");
 const doneSpan = document.getElementById("doneCounter");
+const updateButton = document.getElementById("updateBtn");
+const barsBtn = document.getElementById("barsBtn");
+const gridBtn = document.getElementById("gridBtn");
+const modeIcon = document.getElementById("modeIcon");
+const moonIcon = document.getElementById("moonIcon");
+const rowContainer = document.getElementById("rowContainer");
+
 // *----Global Variables ----
 let taskIndex;
 let allTasks;
 allTasks = JSON.parse(localStorage.getItem("allTasks")) || [];
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+} else {
+  document.body.classList.remove("light");
+}
 displayAllTasks();
 
 let nextupcounter = parseInt(localStorage.getItem("nextupcounter")) || 0;
@@ -24,23 +37,47 @@ let donecounter = parseInt(localStorage.getItem("donecounter")) || 0;
 nextUpSpan.innerHTML = nextupcounter;
 inProgressSpan.innerHTML = inprogresscounter;
 doneSpan.innerHTML = donecounter;
+// ^----Elements Rejex----
+const titlePattern = /^[A-Za-z0-9 ]{3,50}$/;
+const descriptionPattern = /^[A-Za-z0-9 ,.?!]{5,200}$/;
 // &----Functions ----
+
 function addTask() {
-  let task = {
-    status: statusInput.value,
-    category: categoryInput.value,
-    title: titleInput.value,
-    description: descriptionInput.value,
-  };
-  allTasks.push(task);
-  localStorage.setItem("allTasks", JSON.stringify(allTasks));
-  clearInputs();
-  displayTask(allTasks.length - 1);
-  updateCounters();
-  let modalElement = document.getElementById("exampleModal");
-  let modalInstance = bootstrap.Modal.getInstance(modalElement);
-  modalInstance.hide();
+  if (
+    validate(titleInput, titlePattern) &&
+    validate(descriptionInput, descriptionPattern)
+  ) {
+    let task = {
+      status: statusInput.value,
+      category: categoryInput.value,
+      title: titleInput.value,
+      description: descriptionInput.value,
+      bgColor: "rgba(15, 23, 42, 0.4)",
+    };
+    allTasks.push(task);
+    localStorage.setItem("allTasks", JSON.stringify(allTasks));
+    clearInputs();
+    Swal.fire({
+      icon: "success",
+      title: "Task Added!",
+      text: "Your task has been added successfully.",
+      confirmButtonColor: "#28a745",
+    });
+    displayTask(allTasks.length - 1);
+    updateCounters();
+    let modalElement = document.getElementById("exampleModal");
+    let modalInstance = bootstrap.Modal.getInstance(modalElement);
+    modalInstance.hide();
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: "Missing Fields",
+      text: "Please fill in all fields to add a new task!",
+      confirmButtonColor: "red",
+    });
+  }
 }
+
 function updateCounters() {
   nextupcounter = 0;
   inprogresscounter = 0;
@@ -68,20 +105,21 @@ function clearInputs() {
   titleInput.value = "";
   descriptionInput.value = "";
 }
+
 function displayTask(index) {
   var taskHTML = `
-  <div class="task">
+  <div class="task"  style="background:${allTasks[index].bgColor}">
     <h3 class="text-capitalize">${allTasks[index].title}</h3>
     <p class="description text-capitalize">${allTasks[index].description}</p>
     <h4 class="category ${allTasks[index].category} text-capitalize">${allTasks[index].category}</h4>
     <ul class="task-options list-unstyled d-flex gap-4 fs-5 m-0 mt-2">
-     <li><i class="fas fa-pen  text-warning" ></i></li>
+     <li><i class="fas fa-pen  text-warning"  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showEditTAsk(${index})"></i></li>
      <li><i class="fas fa-trash text-danger" onclick="deleteTask(${index})"></i></li>
-     <li><i class="fas fa-palette text-secondary"></i></li>
+     <li><i class="fas fa-palette text-secondary" onclick="changeBgColor(event,${index})"></i></li>
     </ul>
   </div>
   `;
-  taskIndex = index;
+
   if (allTasks[index].status === "nextUp") {
     nextUpSection.querySelector(".tasks").innerHTML += taskHTML;
   } else if (allTasks[index].status === "inProgress") {
@@ -124,8 +162,65 @@ function searchTask() {
       displayTask(i);
     }
   }
-
 }
+function showEditTAsk(i) {
+  statusInput.value = allTasks[i].status;
+  categoryInput.value = allTasks[i].category;
+  titleInput.value = allTasks[i].title;
+  descriptionInput.value = allTasks[i].description;
+  addBtn.classList.add("d-none");
+  updateButton.classList.remove("d-none");
+  taskIndex = i;
+}
+function updateTAsk() {
+  allTasks[taskIndex].status = statusInput.value;
+  allTasks[taskIndex].category = categoryInput.value;
+  allTasks[taskIndex].title = titleInput.value;
+  allTasks[taskIndex].description = descriptionInput.value;
+  localStorage.setItem("allTasks", JSON.stringify(allTasks));
+  nextUpSection.querySelector(".tasks").innerHTML = "";
+  inProgressSection.querySelector(".tasks").innerHTML = "";
+  doneSection.querySelector(".tasks").innerHTML = "";
+  clearInputs();
+  displayAllTasks();
+  addBtn.classList.remove("d-none");
+  updateButton.classList.add("d-none");
+  let modalElement = document.getElementById("exampleModal");
+  let modalInstance = bootstrap.Modal.getInstance(modalElement);
+  modalInstance.hide();
+}
+function validate(element, pattern) {
+  if (pattern.test(element.value)) {
+    element.classList.add("is-valid");
+    element.classList.remove("is-invalid");
+    element.nextElementSibling.nextElementSibling.classList.add("d-none");
+    return true;
+  } else {
+    element.classList.remove("is-valid");
+    element.classList.add("is-invalid");
+    element.nextElementSibling.nextElementSibling.classList.remove("d-none");
+    return false;
+  }
+}
+const taskBoxColors = [
+  "#7ed321",
+  "rgba(15, 23, 42, 0.4)",
+  "#4a90e2",
+  "#f5a623",
+  " rgba(255, 255, 255, 0.7)",
+];
+
+function generateRandomColors() {
+  let randomcolorIndex;
+  randomcolorIndex = Math.floor(Math.random() * taskBoxColors.length);
+  return taskBoxColors[randomcolorIndex];
+}
+function changeBgColor(e, i) {
+  allTasks[i].bgColor = generateRandomColors();
+  e.target.closest(".task").style.background = allTasks[i].bgColor;
+  localStorage.setItem("allTasks", JSON.stringify(allTasks));
+}
+
 // !----Events ----
 addBtn.addEventListener("click", () => {
   addTask();
@@ -133,3 +228,46 @@ addBtn.addEventListener("click", () => {
 searchTaskInput.addEventListener("input", () => {
   searchTask();
 });
+updateButton.addEventListener("click", () => {
+  updateTAsk();
+});
+titleInput.addEventListener("input", () => {
+  validate(titleInput, titlePattern);
+});
+descriptionInput.addEventListener("input", () => {
+  validate(descriptionInput, descriptionPattern);
+});
+gridBtn.addEventListener("click", () => {
+  gridBtn.classList.add("activeIcon");
+  barsBtn.classList.remove("activeIcon");
+  rowContainer.classList.add("row-cols-md-2", "row-cols-lg-3");
+  rowContainer.classList.remove("row-cols-1", "flex-column");
+});
+barsBtn.addEventListener("click", () => {
+  barsBtn.classList.add("activeIcon");
+  gridBtn.classList.remove("activeIcon");
+  rowContainer.classList.remove("row-cols-md-2", "row-cols-lg-3");
+  rowContainer.classList.add("row-cols-1", "flex-column");
+});
+modeIcon.addEventListener("click", () => {
+  modeIcon.classList.add("activeIcon");
+});
+
+// 🌙☀️ Dark / Light Mode
+function toggleTheme() {
+  document.body.classList.toggle("light");
+  if (document.body.classList.contains("light")) {
+    // Light Mode
+    localStorage.setItem("theme", "light");
+    moonIcon.classList.remove("d-none");
+    modeIcon.classList.add("d-none");
+  } else {
+    // Dark Mode
+    localStorage.setItem("theme", "dark");
+    moonIcon.classList.add("d-none");
+    modeIcon.classList.remove("d-none");
+  }
+}
+
+modeIcon.addEventListener("click", toggleTheme);
+moonIcon.addEventListener("click", toggleTheme);
