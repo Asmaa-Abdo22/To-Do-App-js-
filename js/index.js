@@ -261,12 +261,10 @@ function logOut() {
   if (loggedUser) {
     let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
 
-    
     allUsers = allUsers.filter((user) => user.email !== loggedUser.email);
 
     localStorage.setItem("allUsers", JSON.stringify(allUsers));
 
-  
     localStorage.removeItem("loggedUser");
   }
 
