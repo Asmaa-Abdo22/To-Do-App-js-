@@ -1,5 +1,4 @@
 // ?----HTML ELEMENTS ----
-
 const emailInput = document.getElementById("emailInput");
 const passwordInput = document.getElementById("passwordInput");
 const signInBtn = document.getElementById("signInBtn");
@@ -24,12 +23,15 @@ function signIn() {
         icon: "success",
         title: "Success!",
         text: "Welcome To The to do list .",
-        confirmButtonColor: "#28a745",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
       }).then(() => {
         localStorage.setItem(
           "loggedUser",
           JSON.stringify({ email: isExist.email })
         );
+
         document.location.href = "./index.html";
       });
     } else {
@@ -37,7 +39,9 @@ function signIn() {
         icon: "error",
         title: " Failed!",
         text: "Email or Password is incorrect, Try Again",
-        confirmButtonColor: "red",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
       });
     }
   } else {
@@ -45,7 +49,9 @@ function signIn() {
       icon: "error",
       title: "Log In Failed!",
       text: "please fill in all fields.",
-      confirmButtonColor: "red",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
     });
   }
 }

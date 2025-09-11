@@ -25,7 +25,9 @@ function signUp() {
         icon: "error",
         title: "Can't Add User!",
         text: "This Email Already Exists.",
-        confirmButtonColor: "red",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
       });
       return;
     }
@@ -42,7 +44,9 @@ function signUp() {
       icon: "success",
       title: "User Added!",
       text: "Your Account has been added successfully.",
-      confirmButtonColor: "#28a745",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
     }).then(() => {
       document.location.href = "./signIn.html";
     });
@@ -52,7 +56,9 @@ function signUp() {
       icon: "error",
       title: "Can't Add User!",
       text: "please fill in all fields.",
-      confirmButtonColor: "red",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
     });
   }
 }

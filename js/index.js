@@ -61,7 +61,9 @@ function addTask() {
       icon: "success",
       title: "Task Added!",
       text: "Your task has been added successfully.",
-      confirmButtonColor: "#28a745",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
     });
     displayTask(allTasks.length - 1);
     updateCounters();
@@ -73,7 +75,9 @@ function addTask() {
       icon: "error",
       title: "Missing Fields",
       text: "Please fill in all fields to add a new task!",
-      confirmButtonColor: "red",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
     });
   }
 }
@@ -252,9 +256,25 @@ function toggleTheme() {
   }
 }
 function logOut() {
-  localStorage.removeItem("loggedUser");
-  document.location.href = "./signIn.html";
+  const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+
+  if (loggedUser) {
+    let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
+
+    // فلترهم وامسح اللي عامل لوج إن
+    allUsers = allUsers.filter((user) => user.email !== loggedUser.email);
+
+    //  القائمة بعد التصفية
+    localStorage.setItem("allUsers", JSON.stringify(allUsers));
+
+    // امسح الـ loggedUser
+    localStorage.removeItem("loggedUser");
+  }
+
+  // ودّيه على صفحة التسجيل
+  document.location.href = "./signUp.html";
 }
+
 // !----Events ----
 addBtn.addEventListener("click", () => {
   addTask();
