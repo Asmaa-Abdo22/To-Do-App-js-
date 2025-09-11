@@ -261,17 +261,15 @@ function logOut() {
   if (loggedUser) {
     let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
 
-    // فلترهم وامسح اللي عامل لوج إن
+    
     allUsers = allUsers.filter((user) => user.email !== loggedUser.email);
 
-    //  القائمة بعد التصفية
     localStorage.setItem("allUsers", JSON.stringify(allUsers));
 
-    // امسح الـ loggedUser
+  
     localStorage.removeItem("loggedUser");
   }
 
-  // ودّيه على صفحة التسجيل
   document.location.href = "./signUp.html";
 }
 
