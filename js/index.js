@@ -29,14 +29,7 @@ if (savedTheme === "light") {
   document.body.classList.remove("light");
 }
 displayAllTasks();
-
-let nextupcounter = parseInt(localStorage.getItem("nextupcounter")) || 0;
-let inprogresscounter =
-  parseInt(localStorage.getItem("inprogresscounter")) || 0;
-let donecounter = parseInt(localStorage.getItem("donecounter")) || 0;
-nextUpSpan.innerHTML = nextupcounter;
-inProgressSpan.innerHTML = inprogresscounter;
-doneSpan.innerHTML = donecounter;
+updateCounters();
 // ^----Elements Rejex----
 const titlePattern = /^[A-Za-z0-9 ]{3,50}$/;
 const descriptionPattern = /^[A-Za-z0-9 ,.?!]{5,200}$/;
@@ -83,26 +76,24 @@ function addTask() {
 }
 
 function updateCounters() {
-  nextupcounter = 0;
-  inprogresscounter = 0;
-  donecounter = 0;
+  let nextupcounter = 0;
+  let inprogresscounter = 0;
+  let donecounter = 0;
 
   for (let i = 0; i < allTasks.length; i++) {
     if (allTasks[i].status === "nextUp") {
       nextupcounter++;
-      nextUpSpan.innerHTML = nextupcounter;
     } else if (allTasks[i].status === "inProgress") {
       inprogresscounter++;
-      inProgressSpan.innerHTML = inprogresscounter;
     } else if (allTasks[i].status === "done") {
       donecounter++;
-      doneSpan.innerHTML = donecounter;
     }
   }
-  localStorage.setItem("nextupcounter", nextupcounter);
-  localStorage.setItem("inprogresscounter", inprogresscounter);
-  localStorage.setItem("donecounter", donecounter);
+  nextUpSpan.innerHTML = nextupcounter;
+  inProgressSpan.innerHTML = inprogresscounter;
+  doneSpan.innerHTML = donecounter;
 }
+
 function clearInputs() {
   statusInput.value = "";
   categoryInput.value = "";
