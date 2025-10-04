@@ -10,7 +10,7 @@ A sleek, responsive task management web application with user authentication and
 - 🎨 **UI Enhancements**: Dark/Light mode & task background color changer.  
 - 📊 **Counters**: Track tasks in Next Up, In Progress, and Done.  
 - 📱 **Responsive Design**: Works smoothly on all screen sizes.  
-- ⚡ **Animations**: Beautiful transitions 
+- ⚡ **Animations**: Beautiful transitions  
 - 💾 Local Storage - Data persists in your browser
 
   ## 📸 Screenshots
